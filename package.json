@@ -35,8 +35,10 @@
     "@azure/cosmos": "^3.14.1",
     "@types/cors": "^2.8.12",
     "cors": "^2.8.5",
+    "debug": "^4.3.2",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "helmet": "^4.6.0"
+    "helmet": "^4.6.0",
+    "morgan": "^1.10.0"
   }
 }

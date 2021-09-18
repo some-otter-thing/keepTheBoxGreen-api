@@ -1,19 +1,6 @@
 import * as dotenv from 'dotenv';
-
+import { configProps } from './types';
 dotenv.config();
-
-type partitionKey = {
-  kind: string;
-  paths: Array<string>;
-};
-
-interface configProps {
-  endpoint: string | undefined;
-  key: string | undefined;
-  databaseId: string;
-  containerId: string;
-  partitionKey: partitionKey;
-};
 
 const config: configProps = {
   endpoint: process.env.COSMOS_DB_ACCOUNT_URI,
