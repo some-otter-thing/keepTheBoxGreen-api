@@ -1,10 +1,10 @@
 // @ts-nocheck
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
 import { config } from './config';
-import { CosmosClient } from '@azure/cosmos';
+import { CosmosClient, CosmosClientOptions } from '@azure/cosmos';
 import logger from 'morgan';
 import TelemetryList from './routes/telemetryList.route';
 import TelemetryModel from './models/telemetry.model';
@@ -46,6 +46,6 @@ app.listen(PORT, () => {
   debug(`Listening on port  http://localhost:${PORT}`);
 });
 
-app.get('/', (req, res, next) =>
+app.get('/', (req: Request, res: Response, next: NextFunction) =>
   telemetryList.showTelemetryData(req, res).catch(next)
 );

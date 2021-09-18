@@ -1,20 +1,24 @@
-// @ts-nocheck
-import Telemetry from '../models/telemetry.model';
+import { TelemetryItemProps, TelemetryItemsResponseProps } from '../types';
+import { Request, Response } from 'express';
 
+/**
+ * Handles the various APIs for displaying and managing telemetry data
+ * @param {Telemetry} telemetryDataItem
+ */
 class TelemetryList {
-  /**
-   * Handles the various APIs for displaying and managing telemetry data
-   * @param {Telemetry} telemetryDataItem
-   */
-  constructor(telemetryDataItem) {
-    this.telemetryDataItem = telemetryDataItem;
+  telemetryDataItemOfTheList: TelemetryItemProps;
+
+  constructor(telemetryDataItem: TelemetryItemProps) {
+    this.telemetryDataItemOfTheList = telemetryDataItem;
   }
-  async showTelemetryData(req, res) {
+  async showTelemetryData(req: Request, res: Response) {
     const querySpec = {
       query: 'SELECT * from c'
     };
 
-    const items = await this.telemetryDataItem.find(querySpec);
+    const items: TelemetryItemsResponseProps =
+    // @ts-nocheck
+      await this.telemetryDataItemOfTheList.find(querySpec);
     res.json({
       telemetryData: items
     });

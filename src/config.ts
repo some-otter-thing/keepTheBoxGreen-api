@@ -1,8 +1,8 @@
 import * as dotenv from 'dotenv';
-import { configProps } from './types';
+import { ConfigProps } from './types';
 dotenv.config();
 
-const config: configProps = {
+const config: ConfigProps = {
   endpoint: process.env.COSMOS_DB_ACCOUNT_URI,
   key: process.env.COSMOS_DB_ACCOUNT_KEY,
   databaseId: 'KeepTheBoxGreenSql',
