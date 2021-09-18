@@ -15,4 +15,6 @@ npm dev
 3. Add needed enviromental variables to .env
 ```
 PORT =
+COSMOS_DB_ACCOUNT_URI = 
+COSMOS_DB_ACCOUNT_KEY = 
 ```
