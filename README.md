@@ -60,3 +60,9 @@ COSMOS_DB_ACCOUNT_KEY =
 ]
 }
 ```
+
+6. Run Dockerfile
+```
+docker build . -t keep-the-box-green-api
+docker run -p 8080:8080  keep-the-box-green-api
+```
