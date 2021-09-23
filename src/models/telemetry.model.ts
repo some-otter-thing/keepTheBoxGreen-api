@@ -1,5 +1,7 @@
 // @ts-nocheck
-const debug = require('debug')('app:telemetry');
+import Debug from "debug";
+
+const debug = Debug("app:run");
 
 class TelemetryItem {
   /**
@@ -8,7 +10,7 @@ class TelemetryItem {
    * @param {string} databaseId
    * @param {string} containerId
    */
-  constructor(cosmosClient, databaseId, containerId) {
+  constructor(cosmosClient, databaseId: string, containerId: string) {
     this.client = cosmosClient;
     this.databaseId = databaseId;
     this.collectionId = containerId;

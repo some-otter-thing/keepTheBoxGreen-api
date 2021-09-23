@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/some-otter-thing/keepTheBoxGreen-api#readme",
   "devDependencies": {
+    "@types/debug": "^4.1.7",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.13",
     "@types/node": "^16.9.2",

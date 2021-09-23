@@ -8,8 +8,9 @@ import { CosmosClient, CosmosClientOptions } from '@azure/cosmos';
 import logger from 'morgan';
 import TelemetryList from './routes/telemetryList.route';
 import TelemetryModel from './models/telemetry.model';
+import Debug from "debug";
 
-const debug = require('debug')('app:run');
+const debug = Debug("app:run");
 dotenv.config();
 
 if (!process.env.PORT) {
@@ -28,6 +29,7 @@ const { endpoint, key, databaseId, containerId } = config;
 
 const cosmosClient = new CosmosClient({ endpoint, key });
 const telemetryItem = new TelemetryModel(cosmosClient, databaseId, containerId);
+
 const telemetryList = new TelemetryList(telemetryItem);
 
 telemetryItem
