@@ -1,4 +1,4 @@
-To run the project locally
+### To run the project locally
 
 1. Install dependencies
 
@@ -18,7 +18,7 @@ npm dev
 DEBUG=app* npm run dev
 ```
 
-4. Add needed enviromental variables to .env
+#### Note: Do not forget to add needed enviromental variables to .env
 
 ```
 PORT =
@@ -26,7 +26,7 @@ COSMOS_DB_ACCOUNT_URI =
 COSMOS_DB_ACCOUNT_KEY =
 ```
 
-5. For now this implementation of API is searving mock data from Azure Cosmos DB
+#### For now this implementation of API is serving mock data from Azure Cosmos DB
 
 ```
 {
@@ -48,17 +48,16 @@ COSMOS_DB_ACCOUNT_KEY =
 }
 ```
 
-6. Run Dockerfile
+### To run app in with Docker container
 ```
 docker build . -t keep-the-box-green-api
 docker run -p 8080:8080  keep-the-box-green-api
 ```
 
-7. Deployed with Azure 
+### The app is deployed with Azure App Services 
 
-[Link](https://keeptheboxgreen-api.azurewebsites.net/)
+[keepTheBoxGreen-api](https://keeptheboxgreen-api.azurewebsites.net/)
 
-8. MVP cloud infrastructure diagram
+### MVP cloud infrastructure diagram:
 
-Inline-style: 
 ![diagram](assets/mvp-schema.png "")
