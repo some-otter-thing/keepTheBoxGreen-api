@@ -4,7 +4,8 @@
   "description": "api for telemetry data",
   "main": "dist/app.js",
   "scripts": {
-    "start": "tsc && node dist/app.js",
+    "start": "ts-node-dev --respawn --pretty --transpile-only src/app.ts",
+    "build": "tsc -p .",
     "dev": "ts-node-dev --respawn --pretty --transpile-only src/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .ts",
