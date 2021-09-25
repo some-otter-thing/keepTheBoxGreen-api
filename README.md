@@ -57,3 +57,8 @@ docker run -p 8080:8080  keep-the-box-green-api
 7. Deployed with Azure 
 
 [Link](https://keeptheboxgreen-api.azurewebsites.net/)
+
+8. MVP cloud infrastructure diagram
+
+Inline-style: 
+![diagram](assets/mvp-schema.png "")
