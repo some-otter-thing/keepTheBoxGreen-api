@@ -9,7 +9,7 @@ npm i
 2. Run the project in dev mode
 
 ```
-npm dev
+npm run dev
 ```
 
 3. Run the project in dev mode with DEBUG flag
@@ -17,6 +17,23 @@ npm dev
 ```
 DEBUG=app* npm run dev
 ```
+
+### To run the project in production
+
+1. Install dependencies
+```
+npm i
+```
+2. Build the project (it will create /dist folder)
+```
+npm run build
+```
+
+2. Run the project
+```
+npm run start
+```
+
 
 #### Note: Do not forget to add needed enviromental variables to .env
 
@@ -48,11 +65,19 @@ COSMOS_DB_ACCOUNT_KEY =
 }
 ```
 
-### To run app in with Docker container
+### To run app with Docker container
 ```
 docker build . -t keep-the-box-green-api
 docker run -p 8080:8080  keep-the-box-green-api
 ```
+
+NOTE: There is also Dockerfile.dev, in order to build an image with Dockerfile.dev:
+
+```
+docker build -t keep-the-box-green-api-dev -f Dockerfile.dev .
+```
+[keepTheBoxGreen-api docker hub](https://hub.docker.com/repository/docker/irinabaeva/keeptheboxgreen-api-docker)
+
 
 ### The app is deployed with Azure App Services 
 
