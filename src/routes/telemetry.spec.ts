@@ -1,4 +1,4 @@
-const TelemetryList = require("./telemetryList.route");
+import TelemetryList from "./telemetryList.route";
 
 describe('class TelemetryList', () => {
     it('Dummy test', () => {
