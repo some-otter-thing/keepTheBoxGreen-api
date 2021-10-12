@@ -1,3 +1,6 @@
+### The app is deployed with Azure App Services 
+
+[keepTheBoxGreen-api](https://keeptheboxgreen-api.azurewebsites.net/)
 ### To run the project locally
 
 1. Install dependencies
@@ -43,7 +46,7 @@ COSMOS_DB_ACCOUNT_URI =
 COSMOS_DB_ACCOUNT_KEY =
 ```
 
-#### For now this implementation of API is serving mock data from Azure Cosmos DB
+#### Data is served from Azure SQL Cosmos DB
 
 ```
 {
@@ -52,14 +55,11 @@ COSMOS_DB_ACCOUNT_KEY =
         "id": "1",
         "connectionDeviceId": "keep-the-box-green-device",
         "connectionDeviceGenerationId": "637669621042053570",
-        "enqueuedTimeUTC": "2021-09-11T17:57:36.4340000Z",
-        "temperature": 28.202403706127036,
-        "humidity": 64.96773367978993,
-        "_rid": "AQ99ALrBAPgBAAAAAAAAAA==",
-        "_self": "dbs/AQ99AA==/colls/AQ99ALrBAPg=/docs/AQ99ALrBAPgBAAAAAAAAAA==/",
-        "_etag": "\"04009225-0000-1500-0000-6145b9480000\"",
-        "_attachments": "attachments/",
-        "_ts": 1631959368
+        "eventTimestamp": "2021-09-11T17:57:36.4340000Z",
+        "temperature": 28.20,
+        "humidity": 64.96,
+        "sittingTime": 60000,
+        "dustConcentration": 64.8
     },
 ]
 }
@@ -77,11 +77,6 @@ NOTE: There is also Dockerfile.dev, in order to build an image with Dockerfile.d
 docker build -t keep-the-box-green-api-dev -f Dockerfile.dev .
 ```
 [keepTheBoxGreen-api docker hub](https://hub.docker.com/repository/docker/irinabaeva/keeptheboxgreen-api-docker)
-
-
-### The app is deployed with Azure App Services 
-
-[keepTheBoxGreen-api](https://keeptheboxgreen-api.azurewebsites.net/)
 
 ### MVP cloud infrastructure diagram:
 
