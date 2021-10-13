@@ -48,7 +48,20 @@ COSMOS_DB_ACCOUNT_KEY =
 
 #### Data is served from Azure SQL Cosmos DB
 
-```
+* data schema of telemetryData table
+
+| Fields            | Type |
+| ----------- | ----------- |
+| id      | string             |
+| connectionDeviceId   | string        |
+| connectionDeviceId   | string        |
+| connectionDeviceGenerationId   | string        |
+| temperature   | float        |
+| humidity   | float        |
+| sittingTime   | int        |
+| dustConcentration   | float        | 
+
+```json
 {
 "telemetryData": [
     {
@@ -56,10 +69,10 @@ COSMOS_DB_ACCOUNT_KEY =
         "connectionDeviceId": "keep-the-box-green-device",
         "connectionDeviceGenerationId": "637669621042053570",
         "eventTimestamp": "2021-09-11T17:57:36.4340000Z",
-        "temperature": 28.20,
-        "humidity": 64.96,
-        "sittingTime": 60000,
-        "dustConcentration": 64.8
+        "temperature": 28.20, // celsius
+        "humidity": 64.96, // %
+        "sittingTime": 60000, // milliseconds
+        "dustConcentration": 64.8 // ug/m3
     },
 ]
 }
