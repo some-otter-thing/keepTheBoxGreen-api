@@ -93,4 +93,4 @@ docker build -t keep-the-box-green-api-dev -f Dockerfile.dev .
 
 ### MVP cloud infrastructure diagram:
 
-![diagram](assets/mvp-schema.png "")
+![diagram](assets/schema.png "")
