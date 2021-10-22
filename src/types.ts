@@ -14,11 +14,15 @@ export interface ConfigProps {
 export interface TelemetryItemProps {
   find: any;
   id: string;
+  PartitionId: string;
   connectionDeviceId: string;
   connectionDeviceGenerationId: string;
-  enqueuedTimeUTC: string;
+  EventProcessedUtcTime: string;
+  EventEnqueuedUtcTime: string;
   temperature: number;
   humidity: number;
+  dustConcentration: number;
+  sittingTime: number;
 }
 
 export type TelemetryItemsResponseProps = {
