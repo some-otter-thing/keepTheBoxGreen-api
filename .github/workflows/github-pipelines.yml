@@ -33,9 +33,21 @@ jobs:
       with:
         name: node-app
         path: .
-  docker:
+  sonarcloud:
     runs-on: ubuntu-latest
     needs: [build]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_KEEP_THE_BOX_GREEN_API_TOKEN }}
+  docker:
+    runs-on: ubuntu-latest
+    needs: [build, sonarcloud]
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -52,18 +64,6 @@ jobs:
         with:
           push: true
           tags: irinabaeva/keeptheboxgreen-api-docker
-  sonarcloud:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_KEEP_THE_BOX_GREEN_API_TOKEN }}
 
   deployProduction:
     name: Deploy to Production
