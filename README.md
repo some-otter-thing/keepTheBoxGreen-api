@@ -4,19 +4,19 @@
 - [Deployment](#deployment)
 - [Cloud infrastructure diagram](#cloud-infrastructure-diagram)
 - [Cloud services](#cloud-services)
-- [Local Installation](Local-installation)
+- [Local Installation](local-installation)
 - [Data schema](#data-schema)
 - [Docker](#docker)
 
 ### Project Description
 
 This project is a REST API which is serving data from Azure Cosmos DB. Azure Cosmos DB consists of constantly updated data from IOT hub.
+
 ### Deployment
 
 The app is deployed with Azure App Services
 
 [keepTheBoxGreen-api](https://keeptheboxgreen-api.azurewebsites.net/)
-
 
 ### Cloud infrastructure diagram:
 
@@ -33,8 +33,8 @@ The app is deployed with Azure App Services
 
 #### Pre-Installed Requirements
 
-* NPM an Node (v.14.0) installed (check with npm --version and node --version)
-* Docker
+- NPM an Node (v.14.0) installed (check with npm --version and node --version)
+- Docker
 
 #### To run the project locally in development mode
 
@@ -55,7 +55,9 @@ npm run dev
 ```
 DEBUG=app* npm run dev
 ```
-4. Navigate to http://localhost:8080
+
+4. Navigate to http://localhost:${PORT} depending on the PORT you specified in the .env file
+
 #### To run the project locally in production mode
 
 1. Install dependencies
@@ -111,18 +113,21 @@ Data is served from Azure SQL Cosmos DB
       "connectionDeviceId": "keep-the-box-green-device",
       "connectionDeviceGenerationId": "637669621042053570",
       "eventTimestamp": "2021-09-11T17:57:36.4340000Z",
-      "temperature": 28.2, // celsius
-      "humidity": 64.96, // %
-      "sittingTime": 60000, // milliseconds
-      "dustConcentration": 64.8 // ug/m3
+      "temperature": 28.2,
+      "humidity": 64.96,
+      "sittingTime": 60000,
+      "dustConcentration": 64.8
     }
   ]
 }
 ```
 
+Note: temperature is shown in celsius, humidity - in %, sittingTime - in milliseconds, dustConcentration - in ug/m3
+
 ### Docker
 
 The app has been containerized and has two Docker files for production and development.
+
 #### To run Docker container
 
 ```
@@ -135,11 +140,14 @@ NOTE: There is also Dockerfile.dev. In order to build an image with Dockerfile.d
 ```
 docker build -t keep-the-box-green-api-dev -f Dockerfile.dev .
 ```
+
 #### Image is stored in Docker hub
+
+Docker hub is Docker's official cloud-based registry for Docker images
 
 [keepTheBoxGreen-api docker hub](https://hub.docker.com/repository/docker/irinabaeva/keeptheboxgreen-api-docker)
 
 ### CI/CD
 
-The work and collaboration within the project is following CI/CD principles. 
+The work and collaboration within the project is following CI/CD principles.
 ....WIP
