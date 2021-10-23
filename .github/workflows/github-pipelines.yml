@@ -1,11 +1,10 @@
-name: Node.js CI
+name: CI Node.js with deployment to Azure Web App - keepTheBoxGreen-api
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-  workflow_dispatch:
 
 jobs:
   build:
