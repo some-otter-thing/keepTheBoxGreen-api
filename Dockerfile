@@ -14,6 +14,7 @@ RUN npm ci --only=production
 # Bundle app source
 COPY . .
 
+ENV PORT 8080
 EXPOSE 8080 
 
 RUN npm install
