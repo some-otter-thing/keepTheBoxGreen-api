@@ -10,7 +10,7 @@ RUN npm install
 # If you are building your code for production
 RUN npm ci --only=production
 RUN npm install tsc
-RUN tsc -p .
+RUN tsc
 
 ENV PORT 8080
 EXPOSE 8080 
