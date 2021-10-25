@@ -9,12 +9,13 @@ COPY package*.json ./
 RUN npm install
 # If you are building your code for production
 RUN npm ci --only=production
-RUN npm build
+
+# Bundle app source
+COPY . .
+
+RUN npm run build
 
 ENV PORT 8080
 EXPOSE 8080 
-
-# Bundle app source
-COPY .  /usr/src/app
 
 CMD [ "node", "./dist/app.js" ]
