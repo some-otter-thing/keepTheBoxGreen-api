@@ -13,6 +13,7 @@ RUN npm ci --only=production
 # Bundle app source
 COPY . .
 
+RUN npm install tsc -g
 RUN npm run build
 
 ENV PORT 8080
