@@ -1,14 +1,13 @@
-name: Node.js CI
+name: CI Node.js with deployment to Azure Web App - keepTheBoxGreen-api
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
-
+    branches: [main]
+  workflow_dispatch:
 jobs:
   build:
-
     runs-on: ${{matrix.os}}
 
     strategy:
@@ -18,6 +17,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
@@ -27,36 +27,103 @@ jobs:
     - run: npm run build --if-present
     - run: npm run lint
     - run: npm run test
+
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: node-app
+        path: .
+  sonarcloud:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_KEEP_THE_BOX_GREEN_API_TOKEN }}
   docker:
     runs-on: ubuntu-latest
+    needs: [build, sonarcloud]
     steps:
-      -
-        name: Set up QEMU
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
-      -
-        name: Set up Docker Buildx
+
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      -
-        name: Login to DockerHub
-        uses: docker/login-action@v1 
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Build and push
+          registry: https://index.docker.io/v1/
+          username: ${{ secrets.AzureAppService_ContainerUsername_19b0fc797f024169a673e497aef1db4e }}
+          password: ${{ secrets.AzureAppService_ContainerPassword_6857f55b3f764fabaf59f80b29e18135 }}
+      - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: irinabaeva/keeptheboxgreen-api-docker
-  sonarcloud:
+          tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_19b0fc797f024169a673e497aef1db4e }}/keeptheboxgreen-api-docker:${{ github.sha }}
+          file: ./Dockerfile
+  deployStaging:
+    name: Deploy to Staging (containerized)
     runs-on: ubuntu-latest
+    needs: [docker]
+    environment:
+      name: 'Staging'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
     steps:
-    - uses: actions/checkout@v2
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'keeptheboxgreen-staging'
+          slot-name: 'production'
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_98a83403ba9b4be5bbe417736b4ead58 }}
+          images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_2a36dfddcd39464d9488f180208c3b47 }}/keeptheboxgreen-api-docker:${{ github.sha }}'
+  deployProduction:
+    name: Deploy to Production
+    if: github.event.ref == 'refs/heads/main'
+    needs: [build, sonarcloud]
+    runs-on: ubuntu-latest
+    environment:
+      name: "Production"
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: node-app
+
+      - name: "Deploy to Azure Web App"
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "keepTheBoxGreen-api"
+          slot-name: "Production"
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E35C1724A2504935A15955DA5F07B981 }}
+          package: .
+  deployContainerizedProd:
+    name: Deploy to Production (containerized)
+    runs-on: ubuntu-latest
+    if: github.event.ref == 'refs/heads/main'
+    needs: [deployStaging]
+    environment:
+      name: 'production-containerized'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Deploy to Azure Containerized Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
       with:
-        fetch-depth: 0
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_KEEP_THE_BOX_GREEN_API_TOKEN }}
+        app-name: 'keeptheboxgreen-prod'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_6bdbeddd99ff462088fc2f1cf4b01ff7 }}
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_19b0fc797f024169a673e497aef1db4e }}/keeptheboxgreen-api-docker:${{ github.sha }}'
+
