@@ -93,9 +93,10 @@ jobs:
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E35C1724A2504935A15955DA5F07B981 }}
           package: .
   deployContainerizedProd:
+    name: Deploy to Production (containerized)
     runs-on: ubuntu-latest
     if: github.event.ref == 'refs/heads/main'
-    needs: [build, sonarcloud]
+    needs: [docker]
     environment:
       name: 'production-containerized'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
