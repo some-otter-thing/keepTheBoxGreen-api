@@ -147,7 +147,10 @@ Docker hub is Docker's official cloud-based registry for Docker images
 
 [keepTheBoxGreen-api docker hub](https://hub.docker.com/repository/docker/irinabaeva/keeptheboxgreen-api-docker)
 
-### CI/CD
+#### CI/CD
+Tools of CI/CD:
+1. Pipeline : Github 
+2. Container registery: Docker Hub
 
 The work and collaboration within the project is following CI/CD principles.
 The main jobs of CI/CD pipeline:
@@ -157,6 +160,14 @@ The main jobs of CI/CD pipeline:
 * deployProduction (this step is present just for learning purposes, since the main deployment has been done with containerized app)
 * deployContainerizedProd
 
-Tools of CI/CD:
-1. Pipeline : Github 
-2. Container registery: Docker Hub
+##### Workflow on pull request
+
+![diagram](/assets/workflow_pr.png)
+
+##### Workflow on push to main branch
+Deployment step is protected and requires manual trigger (approval) of reviewer.
+
+Push to main branch is protected and reuires:
+- Build, Sonar Cloud and Deploy to staging status checks to pass before merging
+- 
+wip...
