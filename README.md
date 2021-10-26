@@ -150,4 +150,13 @@ Docker hub is Docker's official cloud-based registry for Docker images
 ### CI/CD
 
 The work and collaboration within the project is following CI/CD principles.
-....WIP
+The main jobs of CI/CD pipeline:
+* build (build, test, lint, upload artifact)
+* sonarcloud (in the future it will have code coverage scan)
+* docker (build image and push to docker hub)
+* deployProduction (this step is present just for learning purposes, since the main deployment has been done with containerized app)
+* deployContainerizedProd
+
+Tools of CI/CD:
+1. Pipeline : Github 
+2. Container registery: Docker Hub
