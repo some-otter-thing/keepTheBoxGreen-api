@@ -124,6 +124,6 @@ jobs:
       with:
         app-name: 'keeptheboxgreen-prod'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_6bdbeddd99ff462088fc2f1cf4b01ff7 }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_19b0fc797f024169a673e497aef1db4e }}/keeptheboxgreen-api-docker:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_00dc2e98b217477eba94c90bf0bd67fe }}
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_02984938287a48339bae47c941a9ef16 }}/keeptheboxgreen-api-docker:${{ github.sha }}'
 
