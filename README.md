@@ -165,9 +165,11 @@ The main jobs of CI/CD pipeline:
 ![diagram](/assets/workflow_pr.png)
 
 ##### Workflow on push to main branch
+Push to main branch is protected and requires Build, Sonar Cloud and Deploy to staging status checks to pass before merging
+
 Deployment step is protected and requires manual trigger (approval) of reviewer.
 
-Push to main branch is protected and reuires:
-- Build, Sonar Cloud and Deploy to staging status checks to pass before merging
-- 
-wip...
+![diagram](/assets/workflow_push.png)
+
+There is an email notification. Deployment is finished after approval
+
