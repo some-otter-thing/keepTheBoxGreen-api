@@ -2,32 +2,29 @@
 
 - [Project Description](#project-description)
 - [Deployment](#deployment)
-- [Cloud infrastructure diagram](#cloud-infrastructure-diagram)
-- [Cloud services](#cloud-services)
 - [Local Installation](local-installation)
 - [Data schema](#data-schema)
 - [Docker](#docker)
+- [Cloud infrastructure diagram](#cloud-infrastructure-diagram)
+- [Cloud services](#cloud-services)
+- [Data flow](#data-flow)
+- [Continuous integration and continuous delivery](#continuous-integration-and-continuous-delivery)
 
 ### Project Description
 
-This project is a REST API which is serving data from Azure Cosmos DB. Azure Cosmos DB consists of constantly updated data from IOT hub.
+The main goal is to build an Arduino device, which is going to collect data from different sensors. It has simple logic behind which helps to indicate if any working conditions are violated by changing the colour of a box #keepTheBoxGreen. For example when a person is sitting in front of the laptop for more than 1 hour or air quality has dropped too much, the light of the box will change its colour to red and LCD display will print an appropriate advice. 
+
+This repo is a REST API built with Express and TS. It is serving data from Azure Cosmos DB. Azure Cosmos DB consists of constantly updated data from IOT hub though Stream Analytics job.
+
+Check [link](https://github.com/some-otter-thing/keepTheBoxGreen-arduino) for arduino repository.
 
 ### Deployment
 
-The app is deployed with Azure App Services
+The app is deployed with Azure App Service
 
-[keepTheBoxGreen-api](https://keeptheboxgreen-api.azurewebsites.net/)
-
-### Cloud infrastructure diagram:
-
-![diagram](assets/schema.png)
-
-### Cloud services
-
-1. Azure Cosmos DB. This application uses native Core (SQL) API, one of the main reasons for choosing this database was because our implementation required Stream Analytics that only works with SQL API.
-2. IOT Hub
-3. Stream Analytics
-4. App Services
+* Production environment of containerized app [keepTheBoxGreen-api](https://keeptheboxgreen-prod.azurewebsites.net/)
+* Staging environment of containerized app [keepTheBoxGreen-api](https://keeptheboxgreen-staging.azurewebsites.net/)
+* Deployment of not containerized app (just for learning purpose) [keepTheBoxGreen-api](https://keeptheboxgreen-api.azurewebsites.net/)
 
 ### Local Installation
 
@@ -147,10 +144,30 @@ Docker hub is Docker's official cloud-based registry for Docker images
 
 [keepTheBoxGreen-api docker hub](https://hub.docker.com/repository/docker/irinabaeva/keeptheboxgreen-api-docker)
 
-#### CI/CD
-Tools of CI/CD:
+### Cloud infrastructure diagram:
+
+![diagram](assets/schema.png)
+
+### Cloud services
+
+1. Azure Cosmos DB. This application uses native Core (SQL) API, one of the main reasons for choosing this database was because our implementation required Stream Analytics that only works with SQL API.
+2. IOT Hub
+3. Stream Analytics
+4. App Services
+
+### Data Flow
+The board uses Azure cloud provider for publishing and storing data.
+
+![data-flow](./assets/data_flow.png)
+
+### Continuous integration and continuous delivery
+#### Tools of CI/CD:
 1. Pipeline : Github 
 2. Container registery: Docker Hub
+3. Web hosting service : Azure App Service
+#### Diagram of deployment pipeline:
+
+![diagram ci/cd](/assets/diagram_cicd.jpg)
 
 The work and collaboration within the project is following CI/CD principles.
 The main jobs of CI/CD pipeline:
@@ -162,14 +179,16 @@ The main jobs of CI/CD pipeline:
 
 ##### Workflow on pull request
 
-![diagram](/assets/workflow_pr.png)
+![workflow](/assets/workflow_pr.png)
 
-##### Workflow on push to main branch
 Push to main branch is protected and requires Build, Sonar Cloud and Deploy to staging status checks to pass before merging
 
 Deployment step is protected and requires manual trigger (approval) of reviewer.
 
-![diagram](/assets/workflow_push.png)
+##### Workflow on push to main branch
+![workflow](/assets/workflow_push.png)
 
-There is an email notification. Deployment is finished after approval
+There is an email notification. Deployment is finished after approval.
+##### Successful deployment
+![workflow](/assets/workflow_push_success.png)
 
