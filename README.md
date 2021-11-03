@@ -150,13 +150,18 @@ Docker hub is Docker's official cloud-based registry for Docker images
 
 ### Cloud services
 
-1. Azure Cosmos DB. This application uses native Core (SQL) API, one of the main reasons for choosing this database was because our implementation required Stream Analytics that only works with SQL API.
-2. IOT Hub
-3. Stream Analytics
-4. App Services
-
+1. IOT Hub is Platform-as-a-Services (PaaS), which collects the telemetry data securely. Also it partially message broker. In our case, Arduino communicates with KeepTheBoxGreen IoT hub using the MQTT protocol. The implementation of this communication can be found [here](https://github.com/some-otter-thing/keepTheBoxGreen-arduino/blob/main/Main/Main.ino). IoT Hub allows data retention in the built-in Event Hubs for a maximum of 7 days. Collection of data is easily expored by Azure IOT explorer:
+![iot_exp](assets/azure_iot_explorer.png)
+2. Stream Analytics is one of the solutions for consuming the telemetry data and placing the data into database. It helps with real-time streaming data. 
+Azure Stream Analytics uses event based approach: event producer -> event processor-> event consumer. In our case event producer is our IoT Hub, and event onsumer is Cosmos DB and Power BI. 
+![stream](assets/azure_stream_analytics.png)
+3. Azure Cosmos DB provides great scalability which is very important for IoT data. Also documentation claims 99.999% read and write availability. The project uses native Core (SQL) API, one of the main reasons for choosing this database is that our implementation required Stream Analytics which only works with SQL API.
+![cosmos_query](assets/azure_cosmos.png)
+4. App Services is Platform as a Service (PaaS) and "an HTTP-based service for hosting web applications, REST APIs, and mobile back ends". It provides good ability to scale, but since our project uses free tier, we are limited by it. But even with the free tier, it supports both automated and manual deployment.
+Also huge benefits that it supports automated deployment directly from GitHub. 
+Free tier limited us to use deployment slots which could be great solution for having different environments. 
 ### Data Flow
-The board uses Azure cloud provider for publishing and storing data.
+Data flow explained above in a great details and here we can see the overall diagram:
 
 ![data-flow](./assets/data_flow.png)
 
