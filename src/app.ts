@@ -51,3 +51,7 @@ app.listen(PORT, () => {
 app.get('/', (req: Request, res: Response, next: NextFunction) =>
   telemetryList.showTelemetryData(req, res).catch(next)
 );
+
+app.get('/date', (req: Request, res: Response, next: NextFunction) =>
+  telemetryList.showTelemetryDataByDay(req, res).catch(next)
+);

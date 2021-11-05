@@ -23,6 +23,16 @@ class TelemetryList {
       telemetryData: items
     });
   }
+  async showTelemetryDataByDay(req, res) {
+    const querySpec = {
+      query: `SELECT * FROM c WHERE c.EventProcessedUtcTime BETWEEN "${req.query.day}T00:00" and "${req.query.day}T23:59"`
+    }
+     // @ts-nocheck
+     const items: TelemetryItemsResponseProps = await this.telemetryDataItemOfTheList.find(querySpec);
+     res.json({
+       telemetryData: items
+     });
+  }
 }
 
 export default TelemetryList;
