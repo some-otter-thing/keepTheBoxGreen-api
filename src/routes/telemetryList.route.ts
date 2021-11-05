@@ -17,7 +17,6 @@ class TelemetryList {
     };
 
     const items: TelemetryItemsResponseProps =
-    // @ts-nocheck
       await this.telemetryDataItemOfTheList.find(querySpec);
     res.json({
       telemetryData: items
@@ -26,12 +25,23 @@ class TelemetryList {
   async showTelemetryDataByDay(req, res) {
     const querySpec = {
       query: `SELECT * FROM c WHERE c.EventProcessedUtcTime BETWEEN "${req.query.day}T00:00" and "${req.query.day}T23:59"`
-    }
-     // @ts-nocheck
-     const items: TelemetryItemsResponseProps = await this.telemetryDataItemOfTheList.find(querySpec);
-     res.json({
-       telemetryData: items
-     });
+    };
+    const items: TelemetryItemsResponseProps =
+      await this.telemetryDataItemOfTheList.find(querySpec);
+    res.json({
+      telemetryData: items
+    });
+  }
+  async showValueByParam(req, res) {
+    const querySpec = {
+      query: `SELECT ${req.query.parameter}(c.${req.query.value}) AS ${req.query.parameter.toLowerCase()}${req.query.value} FROM c 
+      WHERE c.EventProcessedUtcTime BETWEEN "${req.query.day}T00:00" and "${req.query.day}T23:59"`
+    };
+    const items: TelemetryItemsResponseProps =
+      await this.telemetryDataItemOfTheList.find(querySpec);
+    res.json({
+      telemetryData: items
+    });
   }
 }
 

@@ -55,3 +55,7 @@ app.get('/', (req: Request, res: Response, next: NextFunction) =>
 app.get('/date', (req: Request, res: Response, next: NextFunction) =>
   telemetryList.showTelemetryDataByDay(req, res).catch(next)
 );
+
+app.get('/showValue', (req: Request, res: Response, next: NextFunction) =>
+  telemetryList.showValueByParam(req, res).catch(next)
+);
