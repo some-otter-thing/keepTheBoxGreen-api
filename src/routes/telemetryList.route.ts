@@ -15,7 +15,6 @@ class TelemetryList {
     const querySpec = {
       query: 'SELECT * from c'
     };
-
     const items: TelemetryItemsResponseProps =
       await this.telemetryDataItemOfTheList.find(querySpec);
     res.json({
