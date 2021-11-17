@@ -1,4 +1,4 @@
-name: CI Node.js with deployment to Azure Web App - keepTheBoxGreen-api
+name: CI/CD Azure Web App
 
 on:
   push:
