@@ -10,7 +10,7 @@ jest.mock('@azure/cosmos', () => {
 
 const { endpoint, key, databaseId, containerId } = config;
 const cosmosClient = new CosmosClient({ endpoint, key });
-let telemetryItem = new TelemetryModel(cosmosClient, databaseId, containerId);
+const telemetryItem = new TelemetryModel(cosmosClient, databaseId, containerId);
 const telemetryListTest = new TelemetryList(telemetryItem);
 
 describe('class TelemetryList', () => {

@@ -1,7 +1,7 @@
 // @ts-nocheck
-import Debug from "debug";
+import Debug from 'debug';
 
-const debug = Debug("app:run");
+const debug = Debug('app:run');
 
 class TelemetryItem {
   /**
