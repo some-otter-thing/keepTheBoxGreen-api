@@ -1,7 +1,7 @@
 // @ts-nocheck
-import Debug from "debug";
+import Debug from 'debug';
 
-const debug = Debug("app:run");
+const debug = Debug('app:run');
 
 class TelemetryItem {
   /**
@@ -36,20 +36,11 @@ class TelemetryItem {
 
   async find(querySpec) {
     debug('Querying for items from the database');
-    if (!this.container) {
-      throw new Error('Collection is not initialized.');
-    }
     const { resources } = await this.container.items
       .query(querySpec)
       .fetchAll();
     return resources;
   }
-
-  //   async getItem(itemId) {
-  //     debug('Getting an item from the database')
-  //     const { resource } = await this.container.item(itemId, partitionKey).read()
-  //     return resource
-  //   }
 }
 
 export default TelemetryItem;
