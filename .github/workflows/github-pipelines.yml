@@ -95,7 +95,6 @@ jobs:
     environment:
       name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
@@ -128,4 +127,16 @@ jobs:
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_00dc2e98b217477eba94c90bf0bd67fe }}
         images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_02984938287a48339bae47c941a9ef16 }}/keeptheboxgreen-api-docker:${{ github.sha }}'
+  slackNotification:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    needs: [deployContainerizedProd]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_MESSAGE: 'The app was deployed'
 
