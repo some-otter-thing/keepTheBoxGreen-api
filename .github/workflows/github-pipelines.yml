@@ -78,7 +78,7 @@ jobs:
       env:
         SLACK_COLOR: ${{ job.status }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_MESSAGE: ${{ github.event.commits[0].message }}
+        SLACK_MESSAGE: 'PR has been created'
   deployStaging:
     name: Deploy to Staging (containerized)
     runs-on: ubuntu-latest
