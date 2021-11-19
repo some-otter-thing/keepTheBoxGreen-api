@@ -177,7 +177,10 @@ Docker hub is Docker's official cloud-based registry for Docker images
 
 ### Cloud services
 
-1. IOT Hub is Platform-as-a-Services (PaaS), which collects the telemetry data securely. Also it partially message broker. In our case, Arduino communicates with KeepTheBoxGreen IoT hub using the MQTT protocol. The implementation of this communication can be found [here](https://github.com/some-otter-thing/keepTheBoxGreen-arduino/blob/main/Main/Main.ino). IoT Hub allows data retention in the built-in Event Hubs for a maximum of 7 days. Collection of data is easily expored by Azure IOT explorer:
+1. IOT Hub is Platform-as-a-Services (PaaS), which collects the telemetry data securely. Also it partially message broker. In our case, Arduino communicates with KeepTheBoxGreen IoT hub using the MQTT protocol. The implementation of this communication can be found [here](https://github.com/some-otter-thing/keepTheBoxGreen-arduino/blob/main/Main/Main.ino). 
+IoT Hub allows data retention in the built-in Event Hubs for a maximum of 7 days. Collection of data is easily expored by Azure IOT explorer:
+
+
    ![iot_exp](assets/azure_iot_explorer.png)
 2. Stream Analytics is one of the solutions for consuming the telemetry data and placing the data into database. It helps with real-time streaming data.
    Azure Stream Analytics uses event based approach: event producer -> event processor-> event consumer. In our case event producer is our IoT Hub, and event onsumer is Cosmos DB and Power BI.
@@ -232,3 +235,7 @@ There is an email notification. Deployment is finished after approval.
 ##### Successful deployment
 
 ![workflow](/assets/workflow_push_success.png)
+
+We use Slack Notify for creating custom notification to the slack
+
+![slack](/assets/slack_notify.png)
