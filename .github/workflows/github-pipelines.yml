@@ -68,6 +68,16 @@ jobs:
           push: true
           tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_19b0fc797f024169a673e497aef1db4e }}/keeptheboxgreen-api-docker:${{ github.sha }}
           file: ./Dockerfile
+  slackNotification:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
   deployStaging:
     name: Deploy to Staging (containerized)
     runs-on: ubuntu-latest
