@@ -48,5 +48,12 @@ export const createServer = () => {
   app.get('/showValue', (req: Request, res: Response, next: NextFunction) =>
     telemetryList.showValueByParam(req, res).catch(next)
   );
+
+  app.get(
+    '/showDataByDeviceId',
+    (req: Request, res: Response, next: NextFunction) =>
+      telemetryList.showTelemetryDataByDeviceId(req, res).catch(next)
+  );
   return app;
 };
+
