@@ -42,6 +42,17 @@ class TelemetryList {
       telemetryData: items
     });
   }
+
+  async showTelemetryDataByDeviceId(req, res) {
+    const querySpec = {
+      query: `SELECT * FROM c WHERE c.connectionDeviceId="${req.query.connectionDeviceId}"`
+    };
+    const items: TelemetryItemsResponseProps =
+      await this.telemetryDataItemOfTheList.find(querySpec);
+    res.json({
+      telemetryData: items
+    });
+  }
 }
 
 export default TelemetryList;
