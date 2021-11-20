@@ -12,6 +12,8 @@
 - [Docker](#docker)
 - [Cloud infrastructure diagram](#cloud-infrastructure-diagram)
 - [Cloud services](#cloud-services)
+- [Consideration of vendor lock-in](#consideration-of-vendor-lock-in)
+- [Cost](#cost)
 - [Data flow](#data-flow)
 - [Continuous integration and continuous delivery](#continuous-integration-and-continuous-delivery)
 - [Delivery Pipeline Visualization](#delivery-pipeline-visualization)
@@ -173,7 +175,7 @@ example of endpoint http://localhost:8080/date?day=2021-10-15
 
 ### Docker
 
-The app has been containerized and has two Docker files for production and development.
+Containers are used for reproducible state of software. The app has been containerized and has two Docker files for production and development.
 
 #### To run Docker container
 
@@ -200,15 +202,35 @@ Docker hub is Docker's official cloud-based registry for Docker images
 
 ### Cloud services
 
-1. IoT Hub is a Platform-as-a-Services (PaaS), which collects the telemetry data securely. Also, it partially a message broker. In our case, Arduino communicates with KeepTheBoxGreen IoT hub using the MQTT protocol. The implementation of this communication can be found [here](https://github.com/some-otter-thing/keepTheBoxGreen-arduino/blob/main/Main/Main.ino). IoT Hub allows data retention in the built-in Event Hubs for a maximum of 7 days. Collection of data can be explored with Azure IOT explorer:
+Services that used for cloud infrastructure of the project are located in the West Europe. 
+
+![services](assets/services.png)
+
+Appropriate choice of cloud architecture and software models:
+
+1. IoT Hub is a Platform-as-a-Services (PaaS), which collects the telemetry data securely. Also, it partially a message broker. In our case, Arduino communicates with KeepTheBoxGreen IoT hub using the MQTT protocol. The implementation of this communication can be found [here](https://github.com/some-otter-thing/keepTheBoxGreen-arduino/blob/main/Main/Main.ino). IoT Hub allows data retention in the built-in Event Hubs for a maximum of 7 days. 
+An alternative solution could be using Azure IoT Central, which is SaaS solution. As it says it docs:
+
+> Azure IoT Central uses a model-based approach to help you to build enterprise-grade IoT solutions without requiring expertise in cloud-solution development.
+
+So IoT Central is a ready-made solution, and for the project needs and learning experience IoT hub seems much more flexible and interesting solution.
+
+
+2. The Azure IoT explorer is a tool for interaction between devices and IoT hub.
+Flow of data can be easily explored:
 
 
    ![iot_exp](assets/azure_iot_explorer.png)
 
-2. Stream Analytics is one of the solutions for consuming the telemetry data and placing the data into database. It helps with real-time streaming data.
+
+
+
+2. Stream Analytics is serverless event processing engine one one of the solutions for consuming the telemetry data and placing the data into database. It helps with real-time streaming data.
    Azure Stream Analytics uses event-based approach: event producer -> event processor-> event consumer. In our case event producer is our IoT Hub, and the event consumer is Cosmos DB and Power BI.
 
    ![stream](assets/azure_stream_analytics.png)
+
+Another solution is Azure Data Factory, which is a cloud-based data integration service that automates the movement and transformation of data. So Azure Data Factory is heavier and more complex tool. Since we did not need data transformation, Stream Analytics is the best solution for Real-time stream processing in the cloud.
 
 3. Azure Cosmos DB provides great scalability, which is very important for IoT data. Documentation claims 99.999% read and write availability. The project uses native Core (SQL) API. One of the main reasons for choosing this database is that our implementation required Stream Analytics which only works with SQL API.
 
@@ -217,6 +239,16 @@ Docker hub is Docker's official cloud-based registry for Docker images
 4. App Services is a Platform as a Service (PaaS) and "an HTTP-based service for hosting web applications, REST APIs, and mobile back ends". It provides good ability to scale, but since our project uses free tier, we are limited by it. But even with the free tier, it supports both automated and manual deployment.
    Also, huge benefit is that App Services support automated deployment directly from GitHub.
    Free tier limited us to use deployment slots which could be a great solution for having different environments.
+
+### Consideration of vendor lock-in
+
+Since the project uses for now free tiers and app is conteineraised and stored on Docker Hub, we would not have a problem of switching to a different vendor.
+
+
+### Cost
+Now project uses free tiers for all services except of Stream Analytics. Azure has great price calculator https://azure.microsoft.com/en-us/pricing/calculator/ for budget planning. In case we move to stable fast basic cloud architecture,  the minimum estimate cost would be 127 euro per month.
+
+![cost](./assets/cost.png)
 
 ### Data Flow
 
