@@ -14,6 +14,7 @@
 - [Cloud services](#cloud-services)
 - [Data flow](#data-flow)
 - [Continuous integration and continuous delivery](#continuous-integration-and-continuous-delivery)
+- [Delivery Pipeline Visualization](#delivery-pipeline-visualization)
 
 ### Project Description
 
@@ -222,9 +223,11 @@ Azure provides its own Ci/CD tool Azure DevOps. Both Github Actions and Azure De
 
 After researching different container registry options, we chose to try Docker Hub and Azure Container Registry. Azure Container Registry offers different plans, but even the basic one is not for free. So I proceeded with a free option of <a href="https://hub.docker.com/repository/docker/irinabaeva/keeptheboxgreen-api-docker">Docker Hub</a> for API project. 
 
-3. Web hosting service : Azure App Service
+3. Web hosting service : Azure App Service. 
 
-#### Diagram of deployment pipeline:
+Azure App Service is used in this project for the learning goals. Since we are using free tier, we can't configure and try on many options and benefits of using Azure App Service. 
+
+#### Delivery Pipeline Visualization:
 
 ![diagram ci/cd](/assets/diagram_cicd.jpg)
 
