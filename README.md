@@ -225,12 +225,12 @@ Flow of data can be easily explored:
 
 
 
-2. Stream Analytics is serverless event processing engine one one of the solutions for consuming the telemetry data and placing the data into database. It helps with real-time streaming data.
+2. Stream Analytics is serverless event processing engine one of the solutions for consuming the telemetry data and placing the data into database. It helps with real-time streaming data.
    Azure Stream Analytics uses event-based approach: event producer -> event processor-> event consumer. In our case event producer is our IoT Hub, and the event consumer is Cosmos DB and Power BI.
 
    ![stream](assets/azure_stream_analytics.png)
 
-Another solution is Azure Data Factory, which is a cloud-based data integration service that automates the movement and transformation of data. So Azure Data Factory is heavier and more complex tool. Since we did not need data transformation, Stream Analytics is the best solution for Real-time stream processing in the cloud.
+Another option was Azure Data Factory, which is a cloud-based data integration service that automates the movement and transformation of data. So Azure Data Factory is heavier and more complex tool. Since we did not need data transformation, Stream Analytics appeared to be the best solution for Real-time stream processing in the cloud.
 
 3. Azure Cosmos DB provides great scalability, which is very important for IoT data. Documentation claims 99.999% read and write availability. The project uses native Core (SQL) API. One of the main reasons for choosing this database is that our implementation required Stream Analytics which only works with SQL API.
 
@@ -242,7 +242,7 @@ Another solution is Azure Data Factory, which is a cloud-based data integration 
 
 ### Consideration of vendor lock-in
 
-Since the project uses for now free tiers and app is conteineraised and stored on Docker Hub, we would not have a problem of switching to a different vendor.
+Since the project uses for now free tiers and app is containerised and stored on Docker Hub, we would not have a problem of switching to a different vendor.
 
 
 ### Cost
