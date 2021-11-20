@@ -14,27 +14,32 @@
 - [Cloud services](#cloud-services)
 - [Data flow](#data-flow)
 - [Continuous integration and continuous delivery](#continuous-integration-and-continuous-delivery)
+- [Delivery Pipeline Visualization](#delivery-pipeline-visualization)
 
 ### Project Description
 
-KeepTheBoxGreen project introduces the implementation of the Arduino device, which collects data from sensors such as Ultrasonic sensor, Humidity/Temperature sensor, Dust sensor. It has simple logic behind which helps indicate if any of the working conditions are violated by changing the colour of a box. For example, when a person is sitting in front of the laptop for more than 1 hour or air quality drops, the box's light changes its colour to red, and the LCD prints a piece of appropriate advice.
+KeepTheBoxGreen project introduces the implementation of the Arduino device, which collects data from sensors such as Ultrasonic sensor, Humidity/Temperature sensor, Dust sensor. It has simple logic which helps indicate if any of the working conditions are violated by changing the colour of a box. For example, when an user sits in front of the laptop for more than 45 min or air quality drops, the box's light changes its colour to red, and the LCD prints a piece of appropriate advice.
 This repo is a REST API built with Express and TS. It is serving data from Azure Cosmos DB. Azure Cosmos DB consists of constantly updated data from the IoT hub through the Stream Analytics job.
 
 Check [link](https://github.com/some-otter-thing/keepTheBoxGreen-arduino) for Arduino repository.
 
 Development process and prototypes:
-
-<img src="./assets/lcd.JPG" alt="lcd" width="200"/>
-<img src="./assets/prototype.JPG" alt="prototype" width="300"/>
+<div display="flex">
+  <img src="./assets/lcd.JPG" alt="lcd" width="200"/>
+  <img src="./assets/prototype.JPG" alt="prototype" width="300"/>
+  <img src="./assets/proto.gif" width="200" />
+</div>
 
 ### Deployment
 
-The app is deployed with Azure App Service
+The app is deployed with Azure App Service.
 
 - Production environment of containerized app [keepTheBoxGreen-api](https://keeptheboxgreen-prod.azurewebsites.net/)
 - Staging environment of containerized app [keepTheBoxGreen-api](https://keeptheboxgreen-staging.azurewebsites.net/)
 - Deployment of (not containerized) app (just for the learning purpose) [keepTheBoxGreen-api](https://keeptheboxgreen-api.azurewebsites.net/)
 
+Production and staging environments take time because we are using free Azure App Services and there is no possibility to enable the "Always On" option. So the web app after 20 minutes of inactivity gets taken down in order to free up resources for other sites that running on the same App Service Plan.
+![off](assets/always-off.png)
 ### Local Installation
 
 #### Pre-Installed Requirements
@@ -109,7 +114,14 @@ Data is served from Azure SQL Cosmos DB
 | sittingTime                  | int    |
 | dustConcentration            | float  |
 
-#### Example of response for /
+#### Example of responses 
+
+Endpoint to get all data
+
+```
+/
+```
+
 
 ```json
 {
@@ -150,11 +162,13 @@ example of endpoint http://localhost:8080/showValue?day=2021-10-15&value=humidit
     }
   ]
 }
+
 ```
 Endpont to get all data by day:
 ```
-http://localhost:8080/date?day=YYYY-MM-DD
+date?day=YYYY-MM-DD
 ```
+example of endpoint http://localhost:8080/date?day=2021-10-15
 
 
 ### Docker
@@ -187,12 +201,19 @@ Docker hub is Docker's official cloud-based registry for Docker images
 ### Cloud services
 
 1. IoT Hub is a Platform-as-a-Services (PaaS), which collects the telemetry data securely. Also, it partially a message broker. In our case, Arduino communicates with KeepTheBoxGreen IoT hub using the MQTT protocol. The implementation of this communication can be found [here](https://github.com/some-otter-thing/keepTheBoxGreen-arduino/blob/main/Main/Main.ino). IoT Hub allows data retention in the built-in Event Hubs for a maximum of 7 days. Collection of data can be explored with Azure IOT explorer:
+
+
    ![iot_exp](assets/azure_iot_explorer.png)
+
 2. Stream Analytics is one of the solutions for consuming the telemetry data and placing the data into database. It helps with real-time streaming data.
    Azure Stream Analytics uses event-based approach: event producer -> event processor-> event consumer. In our case event producer is our IoT Hub, and the event consumer is Cosmos DB and Power BI.
+
    ![stream](assets/azure_stream_analytics.png)
+
 3. Azure Cosmos DB provides great scalability, which is very important for IoT data. Documentation claims 99.999% read and write availability. The project uses native Core (SQL) API. One of the main reasons for choosing this database is that our implementation required Stream Analytics which only works with SQL API.
+
    ![cosmos_query](assets/azure_cosmos.png)
+
 4. App Services is a Platform as a Service (PaaS) and "an HTTP-based service for hosting web applications, REST APIs, and mobile back ends". It provides good ability to scale, but since our project uses free tier, we are limited by it. But even with the free tier, it supports both automated and manual deployment.
    Also, huge benefit is that App Services support automated deployment directly from GitHub.
    Free tier limited us to use deployment slots which could be a great solution for having different environments.
@@ -209,15 +230,17 @@ Data flow is explained above in great details, and here we can see the overall d
 
 1. Ci/CD tool: Github Actions 
 
-Azure provides its own Ci/CD tool Azure DevOps. Both Github Actions and Azure DevOps automatically build, test, publish, release, and deploy code. Also, they use the same YAML files and workflow steps. One of the benefits of Azure is that Azure Pipelines can be easily used for any source control system, but GitHub Actions is for GitHub only. Since we use Github as our source control, we wanted to keep consistent with implementation. Also, Azure Pipelines is suitable for private enterprise projects, but we want to keep our project public and visible for anyone who wants to contribute. 
+Azure provides its own Ci/CD tool Azure DevOps. Both Github Actions and Azure DevOps automatically build, test, publish, release, and deploy code. They use the same YAML files and workflow steps. One of the benefits of Azure is that Azure Pipelines can be easily used for any source control system, but GitHub Actions is for GitHub only. Azure has many additional features for Agile managemnet such as Kanban Bords, sprint planning and so on. Since we use Github as our source control, we wanted to keep consistent with implementation. Also, Azure Pipelines is suitable for private enterprise projects, but we want to keep our project public and visible for anyone who wants to contribute. 
 
 2. Container registery: Docker Hub
 
-After researching different container registry options, we chose to try Docker Hub and Azure Container Registry. Azure Container Registry offers different plans, but even the basic one is not for free. So we proceed with a free option of <a href="https://hub.docker.com/repository/docker/irinabaeva/keeptheboxgreen-api-docker">Docker Hub.</a>.
+After researching different container registry options, we chose to try Docker Hub and Azure Container Registry. Azure Container Registry offers different plans, but even the basic one is not for free. So I proceeded with a free option of <a href="https://hub.docker.com/repository/docker/irinabaeva/keeptheboxgreen-api-docker">Docker Hub</a> for API project. 
 
-3. Web hosting service : Azure App Service
+3. Web hosting service : Azure App Service. 
 
-#### Diagram of deployment pipeline:
+Azure App Service is used in this project for the learning goals. Since we are using free tier, we can't configure and try on many options and benefits of using Azure App Service. 
+
+### Delivery Pipeline Visualization:
 
 ![diagram ci/cd](/assets/diagram_cicd.jpg)
 
@@ -231,7 +254,7 @@ The main jobs of CI/CD pipeline:
 - deployContainerizedProd
 
 P.S. deployProduction (this step is present just for learning purposes, since the main deployment has been done with containerized app)
-##### Workflow on pull request
+#### Workflow on pull request
 
 ![workflow](/assets/workflow_pr.png)
 
@@ -239,12 +262,16 @@ Push to main branch is protected and requires Build, Sonar Cloud and Deploy to s
 
 Deployment step is protected and requires manual trigger (approval) of reviewer.
 
-##### Workflow on push to main branch
+#### Workflow on push to main branch
 
 ![workflow](/assets/workflow_push.png)
 
 There is an email notification. Deployment is finished after approval.
 
-##### Successful deployment
+#### Successful deployment
 
 ![workflow](/assets/workflow_push_success.png)
+
+We use Slack Notify for creating custom notification to the slack
+
+![slack](/assets/slack_notify.png)
