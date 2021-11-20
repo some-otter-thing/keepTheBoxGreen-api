@@ -18,17 +18,17 @@
 
 ### Project Description
 
-KeepTheBoxGreen project introduces the implementation of the Arduino device, which collects data from sensors such as Ultrasonic sensor, Humidity/Temperature sensor, Dust sensor. It has simple logic behind which helps indicate if any of the working conditions are violated by changing the colour of a box. For example, when a person is sitting in front of the laptop for more than 1 hour or air quality drops, the box's light changes its colour to red, and the LCD prints a piece of appropriate advice.
+KeepTheBoxGreen project introduces the implementation of the Arduino device, which collects data from sensors such as Ultrasonic sensor, Humidity/Temperature sensor, Dust sensor. It has simple logic which helps indicate if any of the working conditions are violated by changing the colour of a box. For example, when an user sits in front of the laptop for more than 45 min or air quality drops, the box's light changes its colour to red, and the LCD prints a piece of appropriate advice.
 This repo is a REST API built with Express and TS. It is serving data from Azure Cosmos DB. Azure Cosmos DB consists of constantly updated data from the IoT hub through the Stream Analytics job.
 
 Check [link](https://github.com/some-otter-thing/keepTheBoxGreen-arduino) for Arduino repository.
 
 Development process and prototypes:
-
-<img src="./assets/lcd.JPG" alt="lcd" width="200"/>
-<img src="./assets/prototype.JPG" alt="prototype" width="300"/>
-<img src="./assets/proto.gif" width="200" />
-
+<div display="flex">
+  <img src="./assets/lcd.JPG" alt="lcd" width="200"/>
+  <img src="./assets/prototype.JPG" alt="prototype" width="300"/>
+  <img src="./assets/proto.gif" width="200" />
+</div>
 ### Deployment
 
 The app is deployed with Azure App Service.
