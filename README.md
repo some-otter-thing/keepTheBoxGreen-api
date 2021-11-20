@@ -26,15 +26,18 @@ Development process and prototypes:
 
 <img src="./assets/lcd.JPG" alt="lcd" width="200"/>
 <img src="./assets/prototype.JPG" alt="prototype" width="300"/>
+<img src="./assets/proto.gif" width="200" />
 
 ### Deployment
 
-The app is deployed with Azure App Service
+The app is deployed with Azure App Service.
 
 - Production environment of containerized app [keepTheBoxGreen-api](https://keeptheboxgreen-prod.azurewebsites.net/)
 - Staging environment of containerized app [keepTheBoxGreen-api](https://keeptheboxgreen-staging.azurewebsites.net/)
 - Deployment of (not containerized) app (just for the learning purpose) [keepTheBoxGreen-api](https://keeptheboxgreen-api.azurewebsites.net/)
 
+Production and staging environments take time because we are using free Azure App Services and there is no possibility to enable the "Always On" option. So the web app after 20 minutes of inactivity gets taken down in order to free up resources for other sites that running on the same App Service Plan.
+![off](assets/always-off.png)
 ### Local Installation
 
 #### Pre-Installed Requirements
@@ -213,11 +216,11 @@ Data flow is explained above in great details, and here we can see the overall d
 
 1. Ci/CD tool: Github Actions 
 
-Azure provides its own Ci/CD tool Azure DevOps. Both Github Actions and Azure DevOps automatically build, test, publish, release, and deploy code. Also, they use the same YAML files and workflow steps. One of the benefits of Azure is that Azure Pipelines can be easily used for any source control system, but GitHub Actions is for GitHub only. Since we use Github as our source control, we wanted to keep consistent with implementation. Also, Azure Pipelines is suitable for private enterprise projects, but we want to keep our project public and visible for anyone who wants to contribute. 
+Azure provides its own Ci/CD tool Azure DevOps. Both Github Actions and Azure DevOps automatically build, test, publish, release, and deploy code. They use the same YAML files and workflow steps. One of the benefits of Azure is that Azure Pipelines can be easily used for any source control system, but GitHub Actions is for GitHub only. Azure has many additional features for Agile managemnet such as Kanban Bords, sprint planning and so on. Since we use Github as our source control, we wanted to keep consistent with implementation. Also, Azure Pipelines is suitable for private enterprise projects, but we want to keep our project public and visible for anyone who wants to contribute. 
 
 2. Container registery: Docker Hub
 
-After researching different container registry options, we chose to try Docker Hub and Azure Container Registry. Azure Container Registry offers different plans, but even the basic one is not for free. So we proceed with a free option of <a href="https://hub.docker.com/repository/docker/irinabaeva/keeptheboxgreen-api-docker">Docker Hub.</a>.
+After researching different container registry options, we chose to try Docker Hub and Azure Container Registry. Azure Container Registry offers different plans, but even the basic one is not for free. So I proceeded with a free option of <a href="https://hub.docker.com/repository/docker/irinabaeva/keeptheboxgreen-api-docker">Docker Hub</a> for API project. 
 
 3. Web hosting service : Azure App Service
 
